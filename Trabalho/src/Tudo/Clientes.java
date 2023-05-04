@@ -6,13 +6,31 @@ import javax.swing.JOptionPane;
 
 public class Clientes {
 
-	String cadastraCurriculo( ) {
-		
-		String nome=JOptionPane.showInputDialog("Qual é o seu nome? ");
-		String resposta=JOptionPane.showInputDialog("GOSTARIA DE CADADASTRAR OUTRO NOME? \n1-sim\n2-nao ");
-		
-		return nome;
-		
-	}
 	
+	int cont=0;
+	
+	
+	ArrayList<String> cadastraCurriculo( ) {
+	
+	
+		String nome=JOptionPane.showInputDialog("Qual é o seu nome? ");
+		
+		int resposta;
+		  resposta = JOptionPane.showConfirmDialog(null, "GOSTARIA DE CADADASTRAR OUTRO NOME? ");
+			
+		  if (resposta == JOptionPane.YES_OPTION) {
+			  cadastraCurriculo();
+			  
+			 } 
+		
+		  ArrayList<String> nomesempregados = new ArrayList<>();
+			 nomesempregados.add(nome);
+		  
+			
+			 JOptionPane.showMessageDialog(null,"OS NOMES CADASTRADOS SÃO: "+nomesempregados);
+			 
+		  return nomesempregados;
+		  
+		  
+	}
 }
