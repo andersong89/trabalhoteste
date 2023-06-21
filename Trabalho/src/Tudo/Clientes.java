@@ -2,39 +2,72 @@ package Tudo;
 
 import java.util.ArrayList;
 
+import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 
-public class Clientes {
+public class Clientes extends JFrame {
 
-	
-	int cont=0;
-	
-	
-	String menu=JOptionPane.showInputDialog("1-Cadastrar Candidato\n2-Concorrer a vaga ");
+    private DefaultListModel<String> cadastrosModel;
+    private JList<String> cadastrosList;
 
-	ArrayList<String> cadastraCurriculo( ) {
-	
-	
-		String nome=JOptionPane.showInputDialog("Qual é o seu nome? ");
+    public static void main(String[] args) {
+        Clientes clientes = new Clientes();
+        clientes.menu();
+    }
 
-		String ocupacao=JOptionPane.showInputDialog("Qual é sua ocupação? ");
-		int resposta;
-		  resposta = JOptionPane.showConfirmDialog(null, "GOSTARIA DE CADADASTRAR OUTRO CADASTRO? ");
-			
-		  if (resposta == JOptionPane.YES_OPTION) {
-			  cadastraCurriculo();
-			  
-			 } 
-		
-		  ArrayList<String> nomesempregados = new ArrayList<>();
-			 nomesempregados.add("\nNome: "+nome);
-			 nomesempregados.add("\nOcupacao: "+ocupacao+"\n");
-		  
-			
-			 JOptionPane.showMessageDialog(null,"OS CADASTROS SÃO: "+nomesempregados);
-			 
-		  return nomesempregados;
-		  
-		  
-	}
+    public Clientes() {
+        cadastrosModel = new DefaultListModel<>();
+        cadastrosList = new JList<>(cadastrosModel);
+
+        JScrollPane scrollPane = new JScrollPane(cadastrosList);
+        getContentPane().add(scrollPane);
+        
+        setTitle("Cadastros");
+        setSize(300, 300);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+    }
+
+    public void menu() {
+        int opcao = Integer.parseInt(JOptionPane.showInputDialog("Selecione uma opção:\n1 - Cadastrar Candidato\n2 - Concorrer a vaga\n3 - Listar clientes"));
+
+        if (opcao == 1) {
+            cadastraCurriculo();
+        } else if (opcao == 2) {
+            // Faça algo relacionado à concorrência à vaga
+        } else if (opcao == 3) {
+            listarClientes();
+        } else {
+            JOptionPane.showMessageDialog(null, "Opção inválida!");
+            menu();
+        }
+    }
+
+    public void cadastraCurriculo() {
+        String nome = JOptionPane.showInputDialog("Qual é o seu nome? ");
+        String ocupacao = JOptionPane.showInputDialog("Qual é sua ocupação? ");
+        int resposta = JOptionPane.showConfirmDialog(null, "GOSTARIA DE CADASTRAR OUTRO CADASTRO? ");
+
+        cadastrosModel.addElement("Nome: " + nome + "\n Ocupação: " + ocupacao + "\n");
+
+        if (resposta == JOptionPane.YES_OPTION) {
+            cadastraCurriculo();
+        }
+        
+        else if(resposta == JOptionPane.NO_OPTION){
+        	menu();
+        }
+    }
+
+    public void listarClientes() {
+        if (cadastrosModel.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Não há clientes cadastrados.");
+        } else {
+            JOptionPane.showMessageDialog(null, cadastrosList, "Clientes Cadastrados: ", JOptionPane.PLAIN_MESSAGE);
+        }
+    }
 }
